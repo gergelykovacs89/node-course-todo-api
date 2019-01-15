@@ -51,8 +51,24 @@ app.get('/todos/:id', (req, res) => {
         .catch((err) => {
             res.status(400).send();
         });
+});
 
 
+app.delete('/todos/:id', (req, res) => {
+    var id = req.params.id;
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+    Todo.findByIdAndDelete(id)
+        .then((todoRemoved) => {
+                if (!todoRemoved) {
+                    return res.status(404).send();
+                }
+                res.status(200).send({todoRemoved: todoRemoved});
+        })
+        .catch((err) => {
+            res.status(400).send();
+        })
 });
 
 
