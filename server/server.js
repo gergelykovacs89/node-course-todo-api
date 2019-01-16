@@ -7,6 +7,7 @@ const _ = require('lodash');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -42,6 +43,7 @@ app.post('/users', (req, res) => {
             res.status(400).send(err);
         });
 });
+
 
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
@@ -114,6 +116,10 @@ app.patch('/todos/:id', (req, res) => {
         .catch(() => res.status(400).send());
 });
 
+
+app.get('/users/me', authenticate,(req, res) => {
+    res.send(req.user);
+});
 
 app.listen(port, () => {
     console.log(`Started on port: ${port}`);
