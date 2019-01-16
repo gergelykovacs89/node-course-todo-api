@@ -89,6 +89,7 @@ app.delete('/todos/:id', (req, res) => {
         })
 });
 
+
 app.patch('/todos/:id', (req, res) => {
     var id = req.params.id;
     if (!ObjectID.isValid(id)) {
@@ -121,6 +122,7 @@ app.get('/users/me', authenticate,(req, res) => {
     res.send(req.user);
 });
 
+
 app.post('/users/login', (req, res) => {
     var body = _.pick(req.body, ['email', 'password']);
 
@@ -134,13 +136,13 @@ app.post('/users/login', (req, res) => {
         .catch((err) => {
             res.status(400).send();
         });
-
-
 });
+
 
 app.listen(port, () => {
     console.log(`Started on port: ${port}`);
 });
+
 
 module.exports = {
     app: app
